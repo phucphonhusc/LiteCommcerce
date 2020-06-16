@@ -1,0 +1,122 @@
+﻿@model LiteCommerce.Admin.Models.OrderPaginationResult
+@{
+    ViewBag.Title = "Order";
+    ViewBag.SmallTitle = "important things to you!";
+    int i = 0;
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <form action="~/order" method="get">
+            <div class="input-group input-group-sm">
+                <input name="searchValue" type="text" class="form-control" placeholder="Search everythings.." value="@Model.SearchValue">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+
+            </div>
+        </form>
+    </div>
+</div>
+<form action="~/order/delete" method="post">
+    <div class="container-fliud row" style="margin-bottom: 10px;">
+        <div class="col-sm-8">
+            There are @Model.RowCount order Page @Model.Page / @Model.PageCount
+        </div>
+        <div class="col-sm-4 text-right">
+            <div class="btn-group">
+                <a href="~/order/input" class="btn btn-primary">Add Order  <i class="fa fa-plus"></i></a>
+
+                <button type="submit" class="btn btn-danger" name="method" value="delete" onClick="return confirm('Xác nhận xóa?')">Delete Order  <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-primary">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 30px;">
+                            <input type="checkbox" id="select_all" />
+                        </th>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Employee</th>
+                        <th>OrderDate</th>
+                        <th>RequiredDate</th>
+                        <th>ShippedDate</th>
+                        <th>Shipper</th>
+                        <th>Freight</th>
+                        <th>ShipAddress</th>
+                        <th>ShipCity</th>
+                        <th>ShipCountry</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                    <tr>
+                        <td>
+                            <input class="checkbox" type="checkbox" name="orderIDs" value="@item.OrderID" />
+                        </td>
+                        <td>@(++i)</td>
+                        <td>
+                            @foreach (var items in ViewData["customer"] as List<LiteCommerce.DomainModels.Customer>)
+                            {
+                                if (item.CustomerID == items.CustomerID)
+                                {
+                                    <span>@items.ContactName</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @foreach (var items in ViewData["employee"] as List<LiteCommerce.DomainModels.Employee>)
+                            {
+                                if (item.EmployeeID == items.EmployeeID)
+                                {
+                                    <span>@items.FirstName @items.LastName</span>
+                                }
+                            }
+                        </td>
+                        <td>@item.OrderDate</td>
+                        <td>@item.RequiredDate</td>
+                        <td>@item.ShippedDate</td>
+                        <td>
+                            @foreach (var items in ViewData["shipper"] as List<LiteCommerce.DomainModels.Shipper>)
+                            {
+                                if (item.ShipperID == items.ShipperID)
+                                {
+                                    <span>@items.CompanyName</span>
+                                }
+                            }
+                        </td>
+                        <td>@item.Freight</td>
+                        <td>@item.ShipAddress</td>
+                        <td>@item.ShipCity</td>
+                        <td>@item.ShipCountry</td>
+
+
+
+
+                        <td><a href="~/order/detail/@item.OrderID/" class="btn btn-success"><i class="fa fa-eye"></i></a></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="~/order?page=1&SearchValue=@Model.SearchValue">«</a></li>
+                @for (int page = 1; page <= Model.PageCount; page++)
+                {
+                    <li><a href="~/order?page=@page&SearchValue=@Model.SearchValue">@page</a></li>
+                }
+                <li><a href="~/order?page=@Model.PageCount&SearchValue=@Model.SearchValue">>></a></li>
+
+            </ul>
+        </div>
+    </div>
+</form>
+
+

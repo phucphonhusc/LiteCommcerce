@@ -1,0 +1,32 @@
+﻿@model LiteCommerce.DomainModels.Shipper
+@{
+
+}
+    <div class="box box-primary">
+        <a href="#" onclick="history.go(-1)" class="btn btn-primary" style="float:right">Quay lại</a>
+        <form role="form" action="~/shipper/input" method="post">
+            <div class="box-body row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input type="hidden" name="ShipperID" value="@Model.ShipperID"/>
+                        <label for="exampleInputEmail1">Company Name</label>
+                        <input name="CompanyName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Company Name" value="@Model.CompanyName">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Phone</label>
+                        <input name="Phone" type="text" class="form-control" id="exampleInputEmail1" placeholder="Phone" value="@Model.Phone">
+                    </div>
+                    <div>@Html.ValidationSummary()</div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">
+                    Save <i class="fa fa-floppy-o"></i>
+                </button>
+                <a href="~/shipper" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+

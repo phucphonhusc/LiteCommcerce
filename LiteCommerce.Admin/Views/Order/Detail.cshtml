@@ -1,0 +1,119 @@
+﻿@model LiteCommerce.DomainModels.Order
+@{
+    int i = 0;
+    Single total = 0;
+}
+
+<div class="box box-primary">
+    <div class="container row">
+        <div class="col-sm-4">
+         <h3 style="color:red">Order Info</h3>
+         <div class="box box-primary">
+             <p><b>OrderID: </b>@Model.OrderID</p>
+             <p>
+                 <b>Customer: </b>
+                 @foreach (var item in ViewData["customer"] as List<LiteCommerce.DomainModels.Customer>)
+                 {
+                     if (item.CustomerID == Model.CustomerID)
+                     {
+                         <span>@item.ContactName</span>
+                     }
+                 }
+             </p>
+             <p>
+                 <b>Employee: </b>
+                 @foreach (var item in ViewData["employee"] as List<LiteCommerce.DomainModels.Employee>)
+                 {
+                     if (item.EmployeeID == Model.EmployeeID)
+                     {
+                         <span>@item.FirstName @item.LastName</span>
+                     }
+                 }
+             </p>
+             <p><b>OrderDate: </b>@Model.OrderDate</p>
+             <p><b>RequiredDate: </b>@Model.RequiredDate</p>
+             <p><b>ShippedDate: </b>@Model.ShippedDate</p>
+             <p>
+                 <b>Shipper: </b>
+                 @foreach (var item in ViewData["shipper"] as List<LiteCommerce.DomainModels.Shipper>)
+                 {
+                     if (item.ShipperID == Model.ShipperID)
+                     {
+                         <span>@item.CompanyName</span>
+                     }
+                 }
+             </p>
+             <p><b>Freight: </b>@Model.Freight</p>
+             <p><b>Address: </b>@Model.ShipAddress - @Model.ShipCity - @Model.ShipCountry</p>
+             
+         </div>
+        
+        </div>
+        <div class="col-sm-8 container">
+            <h3 style="color:red">Order Detail </h3>
+            <div class="box box-primary " style="margin-left: -42px;">
+                <div class="box-body ">
+                    <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+
+                                <th>STT</th>
+                                <th>Product</th>
+                                <th>Image</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Discount</th>
+                                <th>Subtotal</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewData["orderdetail"] as List<LiteCommerce.DomainModels.OrderDetail>)
+                            {
+                            <tr>
+
+                                <td>@(++i)</td>
+                                <td>
+                                    @foreach (var items in ViewData["product"] as List<LiteCommerce.DomainModels.Product>)
+                                    {
+                                        if (item.ProductID == items.ProductID)
+                                        {
+                                            <span>@items.ProductName</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var items in ViewData["product"] as List<LiteCommerce.DomainModels.Product>)
+                                    {
+                                        if (item.ProductID == items.ProductID)
+                                        {
+                                            <img src="~/Images/@items.PhotoPath" width="50px"/>
+                                        }
+                                    }
+                                </td>
+                                <td>@item.UnitPrice</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Discount</td>
+
+                                <td><b> @((item.Quantity*item.UnitPrice)*(1-item.Discount))</b></td>
+
+                            </tr>
+                                total += ((item.Quantity * item.UnitPrice)*(1-item.Discount));
+                            }
+                            <tr>
+                                <td colspan="6" align="right" style="font-weight: bold;">Total: </td>
+                                <th align="right" style="color:red">$ @total</th>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+ </div>
+
+
+

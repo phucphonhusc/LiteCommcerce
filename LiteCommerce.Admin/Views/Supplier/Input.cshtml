@@ -1,0 +1,94 @@
+﻿@model LiteCommerce.DomainModels.Supplier
+@{
+   
+
+}
+
+    <div class="box box-primary">
+        <a href="#" onclick="history.go(-1)" class="btn btn-primary" style="float:right">Quay lại</a>
+        <form role="form" action="~/supplier/input" method="post">
+            <div class="box-body row">
+                <div class="col-sm-12">
+                    <input type="hidden" name="SupplierID" value="@Model.SupplierID" />
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Company Name</label>
+                        <input name="CompanyName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Company Name" value="@Model.CompanyName">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Contact Name</label>
+                        <input name="ContactName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Contact Name" value="@Model.ContactName">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Contact Title</label>
+                        <input name="ContactTitle" type="text" class="form-control" id="exampleInputEmail1" placeholder="Contact Title" value="@Model.ContactTitle">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Address</label>
+                        <input name="Address" type="text" class="form-control" id="exampleInputEmail1" placeholder="Address" value="@Model.Address">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Country</label>
+                        <select class="form-control" name="Country">
+                            <option value="">Choose Country</option>
+                            @foreach (var item in SelectListHelper.ListOfCountries())
+                            {
+                                if (item.CountryName == Model.Country)
+                                {
+                                    <option value="@item.CountryName" selected>@item.CountryName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.CountryName">@item.CountryName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">City</label>
+                        <input name="City" type="text" class="form-control" id="exampleInputEmail1" placeholder="City" value="@Model.City">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Phone</label>
+                        <input name="Phone" type="text" class="form-control" id="exampleInputEmail1" placeholder="Phone" value="@Model.Phone">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Fax</label>
+                        <input name="Fax" type="text" class="form-control" id="exampleInputEmail1" placeholder="Fax" value="@Model.Fax">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Homepage</label>
+                        <input name="HomePage" type="text" class="form-control" id="exampleInputEmail1" placeholder="Homepage" value="@Model.HomePage">
+                    </div>
+                    <div>@Html.ValidationSummary()</div>
+                </div>
+                
+            </div>
+            <div class="box-footer">
+
+                <button type="submit" class="btn btn-primary">
+                    Save <i class="fa fa-floppy-o"></i>
+                </button>
+                <a href="~/supplier" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+
+
+

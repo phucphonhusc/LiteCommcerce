@@ -1,0 +1,69 @@
+﻿@model LiteCommerce.Admin.Models.CategoryResult
+@{
+    ViewBag.Title = "Category";
+    ViewBag.SmallTitle = "important things to you!";
+    int i = 0;
+}
+<div class="box box-primary">
+    <div class="box-body">
+        <form action="~/category" method="get">
+            <div class="input-group input-group-sm">
+                <input name="searchValue" type="text" class="form-control" placeholder="Search everythings.." value="@Model.SearchValue">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                </span>
+
+            </div>
+        </form>
+    </div>
+</div>
+<form action="~/category/delete" method="post">
+    <div class="container-fliud row" style="margin-bottom: 10px;">
+        <div class="col-sm-8">
+            There are @Model.RowCount categories
+        </div>
+        <div class="col-sm-4 text-right">
+            <div class="btn-group">
+                <a href="~/category/input" class="btn btn-primary">Add category  <i class="fa fa-plus"></i></a>
+
+                <button type="submit" class="btn btn-danger" name="method" value="delete" onClick="return confirm('Xác nhận xóa?')">Delete category  <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-primary">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 30px;">
+                            <input type="checkbox" id="select_all" />
+                        </th>
+                        <th style="width: 50px;">#</th>
+                        <th style="width:auto;">Company Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                <input class="checkbox" type="checkbox" name="categoryIDs" value="@item.CategoryID" />
+                            </td>
+                            <td>@(++i)</td>
+                            <td>
+                                <span class="text-primary" style="font-weight: bold;">@item.CategoryName</span>
+                            </td>
+                            <td>
+                                <span style="display: block;"><i class="fa fa-info"></i> @item.Description</span>
+                            </td>
+                            <td><a href="~/category/input/@item.CategoryID/" class="btn btn-success"><i class="fa fa-pencil"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</form>

@@ -1,0 +1,34 @@
+﻿@model LiteCommerce.DomainModels.Category
+@{
+
+}
+    <div class="box box-primary">
+        <a href="#" onclick="history.go(-1)" class="btn btn-primary" style="float:right">Quay lại</a>
+        <form role="form" action="~/category/input" method="post">
+            <div class="box-body row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input type="hidden" name="CategoryID" value="@Model.CategoryID" />
+                        <label for="exampleInputEmail1">Category Name</label>
+                        <input name="CategoryName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Category Name" value="@Model.CategoryName">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <input name="Description" type="text" class="form-control" id="exampleInputEmail1" placeholder="Description" value="@Model.Description">
+                    </div>
+                    <div>@Html.ValidationSummary()</div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">
+                    Save <i class="fa fa-floppy-o"></i>
+                </button>
+                <a href="~/category" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+
+

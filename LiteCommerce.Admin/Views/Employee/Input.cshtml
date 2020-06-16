@@ -1,0 +1,116 @@
+﻿@model LiteCommerce.DomainModels.Employee
+@{
+    
+}
+    <div class="box box-primary">
+        <a href="#" onclick="history.go(-1)"class="btn btn-primary" style="float:right">Quay lại</a>
+        <form role="form" action="~/employee/input" method="post" enctype="multipart/form-data">
+            <div class="box-body row">
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <input type="hidden" name="EmployeeID" value="@Model.EmployeeID" />
+                        <label for="exampleInputEmail1">First Name</label>
+                        <input name="FirstName" type="text" class="form-control" id="exampleInputEmail1" placeholder="First Name" value="@Model.FirstName">
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Last Name</label>
+                        <input name="LastName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Last Name" value="@Model.LastName">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Title</label>
+                        <input name="Title" type="text" class="form-control" id="exampleInputEmail1" placeholder="Title" value="@Model.Title">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">BirthDate</label>
+                        <input name="BirthDate"  class="form-control" type="text" value="@string.Format("{0:MM/dd/yyyy}", Model.BirthDate)">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">HireDate</label>
+                        <input name="HireDate" class="form-control" type="text" value="@string.Format("{0:MM/dd/yyyy}", Model.HireDate)">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input name="Email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" value="@Model.Email">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Address</label>
+                        <input name="Address" type="text" class="form-control" id="exampleInputEmail1" placeholder="Address" value="@Model.Address">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">City</label>
+                        <input name="City" type="text" class="form-control" id="exampleInputEmail1" placeholder="City" value="@Model.City">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Country</label>
+                        <select class="form-control" name="Country">
+                            <option value="">Choose Country</option>
+                            @foreach (var item in SelectListHelper.ListOfCountries())
+                            {
+                                if (item.CountryName == Model.Country)
+                                {
+                                    <option value="@item.CountryName" selected>@item.CountryName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.CountryName">@item.CountryName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">HomePhone</label>
+                        <input name="HomePhone" type="text" class="form-control" id="exampleInputEmail1" placeholder="HomePhone" value="@Model.HomePhone">
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Notes</label>
+                        <textarea class="form-control" name="Notes" cols="50" rows="4">@Model.Notes</textarea>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <img src="~/Images/@Model.PhotoPath" width="100px;"/>
+                        <label for="exampleInputEmail1">Photo Path</label>
+                        <input name="uploadPhoto" type="file" class="form-control" id="exampleInputEmail1">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Password</label>
+                        <input name="Password" type="password" class="form-control" id="exampleInputEmail1" placeholder="Password" value="@Model.Password">
+                    </div>
+                    <div>@Html.ValidationSummary()</div>
+                </div>
+                
+
+
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">
+                    Save <i class="fa fa-floppy-o"></i>
+                </button>
+                <a href="~/employee" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+

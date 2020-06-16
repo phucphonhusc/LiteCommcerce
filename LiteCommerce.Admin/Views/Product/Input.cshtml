@@ -1,0 +1,141 @@
+﻿@model LiteCommerce.DomainModels.Product
+@{
+    int i = 0;
+}
+<div class="box box-primary">
+    <a href="#" onclick="history.go(-1)" class="btn btn-primary" style="float:right">Quay lại</a>
+    <form role="form" action="~/product/input" method="post" enctype="multipart/form-data">
+        <div class="box-body row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="hidden" name="ProductID" value="@Model.ProductID" />
+                    <label for="exampleInputEmail1">Product Name</label>
+                    <input name="ProductName" type="text" class="form-control" id="exampleInputEmail1" placeholder="Product Name" value="@Model.ProductName">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <input name="Descriptions" type="text" class="form-control" id="exampleInputEmail1" placeholder="Description" value="@Model.Descriptions">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="sel1">Supplier</label>
+                    <select class="form-control" name="SupplierID">
+                        <option value="0">Choose supplier</option>
+                        @foreach (var item in ViewData["supplier"] as List<LiteCommerce.DomainModels.Supplier>)
+                        {
+                            if (item.SupplierID == Model.SupplierID)
+                            {
+                                <option value="@item.SupplierID" selected>@item.CompanyName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.SupplierID">@item.CompanyName</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="sel1">Category</label>
+                    <select class="form-control" name="CategoryID">
+                        <option value="0">Choose category</option>
+                        @foreach (var item in ViewData["category"] as List<LiteCommerce.DomainModels.Category>)
+                        {
+                            if (item.CategoryID == Model.CategoryID)
+                            {
+                                <option value="@item.CategoryID" selected>@item.CategoryName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.CategoryID">@item.CategoryName</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="sel1">QuantityPerUnit</label>
+                    <input name="QuantityPerUnit" type="text" class="form-control" id="exampleInputEmail1" placeholder="QuantityPerUnit" value="@Model.QuantityPerUnit">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="sel1">UnitPrice</label>
+                    <input name="UnitPrice" type="text" class="form-control" id="exampleInputEmail1" placeholder="UnitPrice" value="@Model.UnitPrice">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Photo Path</label>
+                    <img src="~/Images/@Model.PhotoPath" width="100px">
+                    <input name="uploadPhoto" type="file" class="form-control" id="exampleInputEmail1" placeholder="Photo Path">
+                </div>
+                <div>@Html.ValidationSummary()</div>
+            </div>
+
+
+        </div>
+
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary">
+                Save <i class="fa fa-floppy-o"></i>
+            </button>
+            <a href="~/product" class="btn btn-danger">Cancel</a>
+        </div>
+    </form>
+    <form action="~/product/deleteattribute" method="post">
+        <div class="container-fliud row" style="margin-bottom: 10px;">
+            <div class="col-sm-8">
+
+            </div>
+            <div class="col-sm-4 text-right">
+                <div class="btn-group">
+                    <a href="~/product/inputdetail" class="btn btn-primary">Add Attribute  <i class="fa fa-plus"></i></a>
+
+                    <button type="button" class="btn btn-danger" name="method" value="delete" onClick="return confirm('Xác nhận xóa?')">Delete Attribute <i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 30px;">
+                                <input type="checkbox" id="select_all" />
+                            </th>
+                            <th>STT</th>
+                            <th>AttributeName</th>
+                            <th>AttributeValues</th>
+                            <th>DisplayOrder</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewData["attribute"] as List<LiteCommerce.DomainModels.ProductAttributes>)
+                        {
+                        <tr>
+                            <td><input class="checkbox" type="checkbox" name="attributeIDs" value="@item.AttributeID" /></td>
+                            <td>@(++i)</td>
+                            <td>@item.AttributeName</td>
+                            <td>@item.AttributeValues</td>
+                            <td>@item.DisplayOrder</td>
+                            <td><a href="~/product/inputdetail/@item.ProductID/" class="btn btn-success"><i class="fa fa-pencil"></i></a></td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+    </div>
+
+

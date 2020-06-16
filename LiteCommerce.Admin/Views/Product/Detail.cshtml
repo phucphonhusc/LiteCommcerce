@@ -1,0 +1,72 @@
+﻿@model LiteCommerce.DomainModels.Product
+@{
+    int i = 0;
+}
+
+<div class="box box-primary">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="hinh">
+                <img src="~/Images/@Model.PhotoPath" width="100%" />
+            </div>
+
+        </div>
+        <div class="col-sm-8">
+            <p><b>ProductID: </b>@Model.ProductID</p>
+            <p><b>ProductName: </b>@Model.ProductName</p>
+            <p>
+                <b>SupplierID: </b>@foreach (var item in ViewData["supplier"] as List<LiteCommerce.DomainModels.Supplier>)
+                {
+                    if (item.SupplierID == Model.SupplierID)
+                    {
+                        <span>@item.CompanyName</span>
+                    }
+                }
+            </p>
+            <p>
+                <b>CategoryID: </b>@foreach (var item in ViewData["category"] as List<LiteCommerce.DomainModels.Category>)
+                {
+                    if (item.CategoryID == Model.CategoryID)
+                    {
+                        <span>@item.CategoryName</span>
+                    }
+                }
+            </p>
+            <p><b>QuantityPerUnit: </b>@Model.QuantityPerUnit</p>
+            <p><b>UnitPrice: </b>@Model.UnitPrice $</p>
+            <p><b>Description: </b>@Model.Descriptions</p>
+
+            
+            <div class="box box-primary">
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                               
+                                <th >STT</th>
+                                <th>AttributeName</th>
+                                <th >AttributeValues</th>
+                                <th >DisplayOrder</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewData["attribute"] as List<LiteCommerce.DomainModels.ProductAttributes>)
+                            {
+                            <tr>
+
+                                <td>@(++i)</td>
+                                <td>@item.AttributeName</td>
+                                <td>@item.AttributeValues</td>
+                                <td>@item.DisplayOrder</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+</div>
+
