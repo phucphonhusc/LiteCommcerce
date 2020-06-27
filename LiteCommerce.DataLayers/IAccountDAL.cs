@@ -14,5 +14,6 @@ namespace LiteCommerce.DataLayers
         bool CheckLogin(string email, string password);
         Account GetPassByEmail(string email);
         bool UpdateProfile(Account data);
+        bool CheckEmail(string email);
     }
 }

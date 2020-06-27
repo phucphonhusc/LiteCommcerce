@@ -23,6 +23,10 @@ namespace LiteCommerce.BusinessLayers
         {
             return AccountDB.CheckLogin(email, password);
         }
+        public static bool CheckEmail(string email)
+        {
+            return AccountDB.CheckEmail(email);
+        }
         public static bool UpdatePass(string password, string email)
         {
             return AccountDB.UpdatePass(password, email);

@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace LiteCommerce.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = WebUserRoles.ADMINISTRATOR)]
     public class ProductController : Controller
     {
         // GET: Product
@@ -27,16 +27,16 @@ namespace LiteCommerce.Admin.Controllers
                 category = category,
                 supplier = supplier
             };
-            ViewData["category"] = CatalogBLL.Category_List("");
-            ViewData["supplier"] = CatalogBLL.Supplier_List(1, CatalogBLL.Supplier_Count(""), "");
+            ViewData["category"] = CatalogBLL.Category_ListAll();
+            ViewData["supplier"] = CatalogBLL.Supplier_ListAll();
             return View(model);
         }
         [HttpGet]
         public ActionResult Input(string id = "")
         {
-            ViewData["category"] = CatalogBLL.Category_List("");
-            ViewData["supplier"] = CatalogBLL.Supplier_List(1, CatalogBLL.Supplier_Count(""), "");
-            
+            ViewData["category"] = CatalogBLL.Category_ListAll();
+            ViewData["supplier"] = CatalogBLL.Supplier_ListAll();
+
             if (string.IsNullOrEmpty(id))
             {
                 ViewBag.Title = "Add new product";
@@ -65,9 +65,9 @@ namespace LiteCommerce.Admin.Controllers
         [HttpPost]
         public ActionResult Input(Product model, HttpPostedFileBase uploadPhoto)
         {
-            ViewData["category"] = CatalogBLL.Category_List("");
-            ViewData["supplier"] = CatalogBLL.Supplier_List(1, CatalogBLL.Supplier_Count(""), "");
-            
+            ViewData["category"] = CatalogBLL.Category_ListAll();
+            ViewData["supplier"] = CatalogBLL.Supplier_ListAll();
+
 
             try
             {
@@ -89,19 +89,43 @@ namespace LiteCommerce.Admin.Controllers
                 {
                     return View(model);
                 }
-                string filePath = Path.Combine(Server.MapPath("~/Images"), uploadPhoto.FileName);
-                model.PhotoPath = uploadPhoto.FileName;
-                uploadPhoto.SaveAs(filePath);
+                
                 if (model.ProductID == 0)
                 {
-
-                    int productId = CatalogBLL.Product_Add(model);
-                    return RedirectToAction("InputDetail");
+                    if(uploadPhoto != null)
+                    {
+                        string filePath = Path.Combine(Server.MapPath("~/Images"), uploadPhoto.FileName);
+                        model.PhotoPath = uploadPhoto.FileName;
+                        uploadPhoto.SaveAs(filePath);
+                        int productId = CatalogBLL.Product_Add(model);
+                        return RedirectToAction("InputDetail");
+                    }
+                    else
+                    {
+                        model.PhotoPath = "";
+                        int productId = CatalogBLL.Product_Add(model);
+                        return RedirectToAction("InputDetail");
+                    }
+                    
                 }
                 else
                 {
-                    bool updateResult = CatalogBLL.Product_Update(model);
-                    return RedirectToAction("Index");
+                    if (uploadPhoto != null)
+                    {
+                        string filePath = Path.Combine(Server.MapPath("~/Images"), uploadPhoto.FileName);
+                        model.PhotoPath = uploadPhoto.FileName;
+                        uploadPhoto.SaveAs(filePath);
+                        bool updateResult = CatalogBLL.Product_Update(model);
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Product pro = CatalogBLL.Product_Get(model.ProductID);
+                        model.PhotoPath = pro.PhotoPath;
+                        bool updateResult = CatalogBLL.Product_Update(model);
+                        return RedirectToAction("Index");
+                    }
+                   
                 }
             }
             catch (Exception ex)
@@ -112,8 +136,8 @@ namespace LiteCommerce.Admin.Controllers
         }
         public ActionResult Detail(string id)
         {
-            ViewData["category"] = CatalogBLL.Category_List("");
-            ViewData["supplier"] = CatalogBLL.Supplier_List(1, CatalogBLL.Supplier_Count(""), "");
+            ViewData["category"] = CatalogBLL.Category_ListAll();
+            ViewData["supplier"] = CatalogBLL.Supplier_ListAll();
             ViewBag.Title = "Detail product";
             Product product = CatalogBLL.Product_Get(Convert.ToInt32(id));
             ViewData["attribute"] = CatalogBLL.ProductAttribute_Get(Convert.ToInt32(id));
@@ -136,7 +160,7 @@ namespace LiteCommerce.Admin.Controllers
                 ProductAttributes editAttribute = CatalogBLL.ProductAttribute_GetAttr(Convert.ToInt32(id));
                 if (editAttribute == null)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Input");
                 }
                 return View(editAttribute);
 
@@ -153,24 +177,27 @@ namespace LiteCommerce.Admin.Controllers
                     ModelState.AddModelError("AttributeName", "AttributeName is required");
                 if (string.IsNullOrEmpty(model.AttributeValues))
                     ModelState.AddModelError("AttributeValues", "AttributeValues is required");
-                if (model.DisplayOrder== 0)
+                if (model.DisplayOrder==0)
                     ModelState.AddModelError("DisplayOrder", "DisplayOrder is required");
                
                 if (!ModelState.IsValid)
                 {
                     return View(model);
                 }
-               
+                
                 if (model.AttributeID == 0)
                 {
-
+                
                     int attributeId = CatalogBLL.ProductAttribute_Add(model);
+                    
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                 
+                    
                     bool updateResult = CatalogBLL.ProductAttribute_Update(model);
-                    return RedirectToAction("Input");
+                    return RedirectToAction("Input", "Product", new { id = model.ProductID});
                 }
             }
             catch (Exception ex)

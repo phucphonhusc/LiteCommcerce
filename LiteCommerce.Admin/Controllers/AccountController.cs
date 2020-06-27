@@ -1,4 +1,5 @@
-﻿using LiteCommerce.BusinessLayers;
+﻿using LiteCommerce.Admin.Codes;
+using LiteCommerce.BusinessLayers;
 using LiteCommerce.DomainModels;
 using System;
 using System.Collections.Generic;
@@ -45,11 +46,11 @@ namespace LiteCommerce.Admin.Controllers
             }
             
 
-            if (string.Equals(account.Password , oldpass))
+            if (string.Equals(account.Password , ConvertMD5.GetMD5(oldpass)))
             {
                 if (newpass.Equals(confirmpass))
                 {
-                    bool updateResult = AccountBLL.UpdatePass(newpass, userData.UserID);
+                    bool updateResult = AccountBLL.UpdatePass(ConvertMD5.GetMD5(newpass), userData.UserID);
                     if (updateResult)
                     {
                         return RedirectToAction("Index");
@@ -95,28 +96,14 @@ namespace LiteCommerce.Admin.Controllers
             }
             else
             {
-                //TODO: Kiểm tra thông tin đăng nhập trong DB
-                /* bool account = AccountBLL.CheckLogin(email, password);
-                 if (account == true)
-                 {
-                     FormsAuthentication.SetAuthCookie(email, false);
-
-                     return RedirectToAction("Index", "Dashboard");
-                 }
-                 else
-                 {
-                     ModelState.AddModelError("", "Đăng nhập thất bại!");
-                     ViewBag.Email = email;
-                     return View();
-                 }*/
-                var userAccount = UserAccountBLL.Authorize(email, password, UserAccountTypes.Employee);
+                var userAccount = UserAccountBLL.Authorize(email, ConvertMD5.GetMD5(password), UserAccountTypes.Employee);
                 if(userAccount != null)
                 {
                     WebUserData cookieData = new Admin.WebUserData()
                     {
                         UserID = userAccount.UserID,
                         FullName = userAccount.FullName,
-                        GroupName = WebUserRoles.STAFF,
+                        GroupName = userAccount.GroupName,
                         LoginTime = DateTime.Now,
                         SessionID = Session.SessionID,
                         ClientIP = Request.UserHostAddress,
@@ -153,8 +140,8 @@ namespace LiteCommerce.Admin.Controllers
                 }
                 else
                 {
-                    var getEmployee = HumanResourceBLL.Employee_Get(model.EmployeeID);
-                    model.PhotoPath = getEmployee.PhotoPath;
+                    Employee employee = HumanResourceBLL.Employee_Get(model.EmployeeID);
+                    model.PhotoPath = employee.PhotoPath;
                     bool updateResult = AccountBLL.UpdateProfile(model);
                     return RedirectToAction("Index");
                 }

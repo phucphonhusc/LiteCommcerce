@@ -230,6 +230,52 @@ namespace LiteCommerce.DataLayers.SqlServer
             return data;
         }
 
+        public List<Employee> ListAll()
+        {
+            List<Employee> data = new List<Employee>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = @"select * from Employees
+                        ";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Connection = connection;
+
+
+                    using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    {
+                        while (dbReader.Read())
+                        {
+                            data.Add(new Employee
+                            {
+                                EmployeeID = Convert.ToInt32(dbReader["EmployeeID"]),
+                                FirstName = Convert.ToString(dbReader["FirstName"]),
+                                LastName = Convert.ToString(dbReader["LastName"]),
+                                Title = Convert.ToString(dbReader["Title"]),
+                                BirthDate = Convert.ToDateTime(dbReader["BirthDate"]),
+                                HireDate = Convert.ToDateTime(dbReader["HireDate"]),
+                                Email = Convert.ToString(dbReader["Email"]),
+                                Address = Convert.ToString(dbReader["Address"]),
+                                City = Convert.ToString(dbReader["City"]),
+                                Country = Convert.ToString(dbReader["Country"]),
+                                Notes = Convert.ToString(dbReader["Notes"]),
+                                HomePhone = Convert.ToString(dbReader["HomePhone"]),
+                                PhotoPath = Convert.ToString(dbReader["PhotoPath"]),
+                                Password = Convert.ToString(dbReader["Password"])
+
+                            });
+                        }
+                    }
+
+                }
+                connection.Close();
+
+            }
+            return data;
+        }
+
         public bool Update(Employee data)
         {
             int rowsAffected = 0;

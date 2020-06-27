@@ -3,7 +3,7 @@
     int i = 0;
 }
 <div class="box box-primary">
-    <a href="#" onclick="history.go(-1)" class="btn btn-primary" style="float:right">Quay lại</a>
+    <a href="#" onclick="history.go(-1)" class="btn btn-primary" style="float:right">Back</a>
     <form role="form" action="~/product/input" method="post" enctype="multipart/form-data">
         <div class="box-body row">
             <div class="col-sm-6">
@@ -128,7 +128,7 @@
                             <td>@item.AttributeName</td>
                             <td>@item.AttributeValues</td>
                             <td>@item.DisplayOrder</td>
-                            <td><a href="~/product/inputdetail/@item.ProductID/" class="btn btn-success"><i class="fa fa-pencil"></i></a></td>
+                            <td><a href="~/product/inputdetail/@item.AttributeID/" class="btn btn-success"><i class="fa fa-pencil"></i></a></td>
                         </tr>
                         }
                     </tbody>

@@ -30,7 +30,7 @@ namespace LiteCommerce.DataLayers.SqlServer
                 connection.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    cmd.CommandText = @"select * from Countries
+                    cmd.CommandText = @"select * from Countries ORDER BY CountryName ASC
                         ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Connection = connection;

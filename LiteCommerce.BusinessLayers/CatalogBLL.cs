@@ -21,7 +21,7 @@ namespace LiteCommerce.BusinessLayers
         private static ICategoryDAL CategoryDB { get; set; }
         private static IProductDAL ProductDB { get; set; }
         private static IProductAttributesDAL ProductAttributeDB { get; set; }
-        private static IEmployeeDAL EmployeeDB { get; set; }
+       
         private static ICountryDAL CountryDB { get; set; }
         /// <summary>
         /// Hàm này phải được gọi để khởi tạo các chức năng tác nghiệp
@@ -33,7 +33,7 @@ namespace LiteCommerce.BusinessLayers
             CustomerDB = new DataLayers.SqlServer.CustomerDAL(connectionString);
             ShipperDB = new DataLayers.SqlServer.ShipperDAL(connectionString);
             CategoryDB = new DataLayers.SqlServer.CategoryDAL(connectionString);
-            EmployeeDB = new DataLayers.SqlServer.EmployeeDAL(connectionString);
+           
             ProductDB = new DataLayers.SqlServer.ProductDAL(connectionString);
             CountryDB = new DataLayers.SqlServer.CountryDAL(connectionString);
             ProductAttributeDB = new DataLayers.SqlServer.ProductAttributeDAL(connectionString);
@@ -72,6 +72,7 @@ namespace LiteCommerce.BusinessLayers
         {
             return CustomerDB.List(page, pageSize, searchValue);
         }
+        
         public static Customer Customer_Get(string customerID)
         {
             return CustomerDB.Get(customerID);
@@ -153,30 +154,7 @@ namespace LiteCommerce.BusinessLayers
             return CategoryDB.Count(searchValue);
         }
 
-        public static List<Employee> Employee_List(int page, int pageSize, string searchValue, string country)
-        {
-            return EmployeeDB.List(page, pageSize, searchValue, country);
-        }
-        public static Employee Employee_Get(int employeeID)
-        {
-            return EmployeeDB.Get(employeeID);
-        }
-        public static int Employee_Add(Employee data)
-        {
-            return EmployeeDB.Add(data);
-        }
-        public static bool Employee_Delete(int[] employeeIDs)
-        {
-            return EmployeeDB.Delete(employeeIDs);
-        }
-        public static bool Employee_Update(Employee data)
-        {
-            return EmployeeDB.Update(data);
-        }
-        public static int Employee_Count(string searchValue, string country)
-        {
-            return EmployeeDB.Count(searchValue, country);
-        }
+        
 
         public static List<Product> Product_List(int page, int pageSize, string searchValue, int category, int supplier)
         {
@@ -212,9 +190,9 @@ namespace LiteCommerce.BusinessLayers
         {
             return ProductAttributeDB.Get(productID);
         }
-        public static ProductAttributes ProductAttribute_GetAttr(int productID)
+        public static ProductAttributes ProductAttribute_GetAttr(int AttributeID)
         {
-            return ProductAttributeDB.GetAttribute(productID);
+            return ProductAttributeDB.GetAttribute(AttributeID);
         }
         public static int ProductAttribute_Add(ProductAttributes data)
         {
@@ -229,5 +207,26 @@ namespace LiteCommerce.BusinessLayers
             return ProductAttributeDB.Update(data);
         }
 
+
+        public static List<Supplier> Supplier_ListAll()
+        {
+            return SupplierDB.ListAll();
+        }
+        public static List<Shipper> Shipper_ListAll()
+        {
+            return ShipperDB.ListAll();
+        }
+        public static List<Category> Category_ListAll()
+        {
+            return CategoryDB.ListAll();
+        }
+        public static List<Product> Product_ListAll()
+        {
+            return ProductDB.ListAll();
+        }
+        public static List<Customer> Customer_ListAll()
+        {
+            return CustomerDB.ListAll();
+        }
     }
 }

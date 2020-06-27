@@ -105,7 +105,7 @@ namespace LiteCommerce.DataLayers.SqlServer
             }
             return data;
         }
-        public ProductAttributes GetAttribute(int productID)
+        public ProductAttributes GetAttribute(int AttributeID)
         {
             ProductAttributes data = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -114,10 +114,10 @@ namespace LiteCommerce.DataLayers.SqlServer
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"SELECT *
                                     FROM            ProductAttributes 
-						                 where ProductID = @ProductID";
+						                 where AttributeID = @AttributeID";
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = connection;
-                cmd.Parameters.AddWithValue("@ProductID", productID);
+                cmd.Parameters.AddWithValue("@AttributeID", AttributeID);
                 using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                 {
                     if (dbReader.Read())
@@ -147,16 +147,19 @@ namespace LiteCommerce.DataLayers.SqlServer
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"UPDATE ProductAttributes
                                     SET
+                                    ProductID = @ProductID,
                                     AttributeName = @AttributeName,
                                     AttributeValues = @AttributeValues,
-                                    
+                                    DisplayOrder = @DisplayOrder
                                     WHERE
                                     AttributeID = @AttributeID;";
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = connection;
 
+                cmd.Parameters.AddWithValue("@ProductID", data.ProductID);
                 cmd.Parameters.AddWithValue("@AttributeName", data.AttributeName);
                 cmd.Parameters.AddWithValue("@AttributeValues", data.AttributeValues);
+                cmd.Parameters.AddWithValue("@DisplayOrder", data.DisplayOrder);
                 cmd.Parameters.AddWithValue("@AttributeID", data.AttributeID);
                 
 

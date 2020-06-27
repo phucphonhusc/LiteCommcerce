@@ -169,6 +169,41 @@ namespace LiteCommerce.DataLayers.SqlServer
             return data;
         }
 
+        public List<Category> ListAll()
+        {
+            List<Category> data = new List<Category>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = @"select * from Categories ORDER BY CategoryName ASC
+                        ";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Connection = connection;
+
+
+                    using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    {
+                        while (dbReader.Read())
+                        {
+                            data.Add(new Category
+                            {
+                                CategoryID = Convert.ToInt32(dbReader["CategoryID"]),
+                                CategoryName = Convert.ToString(dbReader["CategoryName"]),
+                                Description = Convert.ToString(dbReader["Description"])
+
+                            });
+                        }
+                    }
+
+                }
+                connection.Close();
+
+            }
+            return data;
+        }
+
         public bool Update(Category data)
         {
             int rowsAffected = 0;

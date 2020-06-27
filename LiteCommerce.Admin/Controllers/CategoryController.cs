@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace LiteCommerce.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = WebUserRoles.ADMINISTRATOR)]
     public class CategoryController : Controller
     {
         // GET: Category

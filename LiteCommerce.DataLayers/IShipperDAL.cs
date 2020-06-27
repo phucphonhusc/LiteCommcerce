@@ -15,6 +15,7 @@ namespace LiteCommerce.DataLayers
         Shipper Get(int shipperID);
         List<Shipper> List(string searchValue);
         int Count(string searchValue);
+        List<Shipper> ListAll();
 
     }
 }

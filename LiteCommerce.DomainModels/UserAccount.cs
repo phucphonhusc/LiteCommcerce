@@ -11,5 +11,6 @@ namespace LiteCommerce.DomainModels
         public string UserID { get; set; }
         public string FullName { get; set; }
         public string Photo { get; set; }
+        public string GroupName { get; set; }
     }
 }

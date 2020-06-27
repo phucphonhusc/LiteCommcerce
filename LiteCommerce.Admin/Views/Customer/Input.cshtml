@@ -3,7 +3,7 @@
 
 }
     <div class="box box-primary">
-        <a href="#" onclick="history.go(-1)" class="btn btn-primary" style="float:right">Quay lại</a>
+        <a href="#" onclick="history.go(-1)" class="btn btn-primary" style="float:right">Back</a>
         <form role="form" action="~/customer/input" method="post">
             <div class="box-body row">
                 <input type="hidden" name="method" value="@ViewBag.method"/>
@@ -66,13 +66,13 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Phone</label>
-                        <input name="Phone" type="text" class="form-control" id="exampleInputEmail1" placeholder="Phone" value="@Model.City">
+                        <input name="Phone" type="text" class="form-control" id="exampleInputEmail1" placeholder="Phone" value="@Model.Phone">
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Fax</label>
-                        <input name="Fax" type="text" class="form-control" id="exampleInputEmail1" placeholder="Fax" value="@Model.City">
+                        <input name="Fax" type="text" class="form-control" id="exampleInputEmail1" placeholder="Fax" value="@Model.Fax">
                     </div>
                 </div>
                 <div>@Html.ValidationSummary()</div>

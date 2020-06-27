@@ -34,14 +34,15 @@ namespace LiteCommerce.Admin
             /// <returns></returns>
             public bool IsInRole(string role)
             {
-                  if (role.Equals(userData.GroupName))
-                  {
-                        return true;
-                  }
-                  else
-                  {
-                        return false;
-                  }
+                string[] group = userData.GroupName.Split(',');
+                if (group.Contains(role))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             /// <summary>

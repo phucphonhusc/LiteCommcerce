@@ -16,5 +16,6 @@ namespace LiteCommerce.DataLayers
         
         List<Category> List( string searchValue);
         int Count(string searchValue);
+        List<Category> ListAll();
     }
 }

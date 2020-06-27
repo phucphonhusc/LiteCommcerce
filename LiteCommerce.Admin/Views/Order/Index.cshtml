@@ -8,12 +8,37 @@
 <div class="box box-primary">
     <div class="box-body">
         <form action="~/order" method="get">
-            <div class="input-group input-group-sm">
-                <input name="searchValue" type="text" class="form-control" placeholder="Search everythings.." value="@Model.SearchValue">
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
-                </span>
+            <div class="row">
 
+                <div class="col-sm-6">
+                    <select name="customer" class="form-control">
+                        <option value="">---All Customer---</option>
+                        @foreach (var item in ViewData["customer"] as List<LiteCommerce.DomainModels.Customer>)
+                        {
+                            if (item.CustomerID == Model.customer)
+                            {
+                                <option value="@item.CustomerID" selected>@item.ContactName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.CustomerID">@item.ContactName</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+
+                <div class="col-sm-6">
+
+                    <div class="input-group input-group-sm">
+                        <input name="searchValue" type="text" class="form-control" placeholder="Search everythings.." value="@Model.SearchValue">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                        </span>
+
+                    </div>
+
+                </div>
             </div>
         </form>
     </div>
@@ -107,12 +132,43 @@
         </div>
         <div class="box-footer clearfix">
             <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="~/order?page=1&SearchValue=@Model.SearchValue">«</a></li>
-                @for (int page = 1; page <= Model.PageCount; page++)
+               
+                @*@for (int page = 1; page <= Model.PageCount; page++)
                 {
-                    <li><a href="~/order?page=@page&SearchValue=@Model.SearchValue">@page</a></li>
+                    <li><a href="~/order?page=@page&SearchValue=@Model.SearchValue&customer=@Model.customer">@page</a></li>
+                }*@
+                @if (Model.Page > 1)
+                {
+                    <li><a href="~/order?page=@(Model.Page - 1)&SearchValue=@Model.SearchValue&customer=@Model.customer"><<</a></li>
                 }
-                <li><a href="~/order?page=@Model.PageCount&SearchValue=@Model.SearchValue">>></a></li>
+                @if (Model.Page > 3)
+                {
+                    <li><a href="~/order?page=1&SearchValue=@Model.SearchValue&customer=@Model.customer">1</a></li>
+                    <li ><a href="#">...</a></li>
+                }
+                @if (Model.Page - 2 > 0)
+                {
+                    <li><a href="~/order?page=@(Model.Page-2)&SearchValue=@Model.SearchValue&customer=@Model.customer">@(Model.Page - 2)</a></li>
+                }
+                @if (Model.Page - 1 > 0)
+                {
+                    <li><a href="~/order?page=@(Model.Page-1)&SearchValue=@Model.SearchValue&customer=@Model.customer">@(Model.Page - 1)</a></li>
+                }
+                <li class="active"><a href="~/order?page=@Model.Page&SearchValue=@Model.SearchValue&customer=@Model.customer">@Model.Page</a></li>
+                @if (Model.Page + 1 < Model.PageCount + 1)
+                {
+                    <li><a href="~/order?page=@(Model.Page+1)&SearchValue=@Model.SearchValue&customer=@Model.customer">@(Model.Page + 1)</a></li>
+                }
+                @if (Model.Page + 2 < Model.PageCount + 1)
+                {
+                    <li><a href="~/order?page=@(Model.Page+2)&SearchValue=@Model.SearchValue&customer=@Model.customer">@(Model.Page + 2)</a></li>
+                }
+                @if (Model.Page < Model.PageCount - 2)
+                {
+                    <li ><a href="#">...</a></li>
+                    <li><a href="~/order?page=@Model.PageCount&SearchValue=@Model.SearchValue&customer=@Model.customer">@Model.PageCount</a></li>
+                }
+                <li><a href="~/order?page=@Model.PageCount&SearchValue=@Model.SearchValue&customer=@Model.customer">>></a></li>
 
             </ul>
         </div>

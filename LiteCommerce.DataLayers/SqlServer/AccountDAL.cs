@@ -18,6 +18,31 @@ namespace LiteCommerce.DataLayers.SqlServer
         {
             this.connectionString = connectionString;
         }
+
+        public bool CheckEmail(string email)
+        {
+            bool result = false;
+            using (SqlConnection connection = new SqlConnection(this.connectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"SELECT * FROM Employees WHERE Email = @email ";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.ExecuteNonQuery();
+                using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    if (dbReader.Read())
+                    {
+                        result = true;
+                    }
+                }
+                connection.Close();
+            }
+            return result;
+        }
+
         public bool CheckLogin(string email, string password)
         {
            
@@ -148,7 +173,7 @@ namespace LiteCommerce.DataLayers.SqlServer
                                         LastName     =   @LastName,
                                         FirstName    =   @FirstName,                                     
                                         BirthDate    =   @BirthDate,                                    
-                                        Email        =   @Email,
+                                        
                                         Address      =   @Address,
                                         City         =   @City,
                                         Country      =   @Country,
@@ -162,7 +187,7 @@ namespace LiteCommerce.DataLayers.SqlServer
                 cmd.Parameters.AddWithValue("@LastName", data.LastName);
                 cmd.Parameters.AddWithValue("@FirstName", data.FirstName);
                 cmd.Parameters.AddWithValue("@BirthDate", data.BirthDate);
-                cmd.Parameters.AddWithValue("@Email", data.Email);
+                
                 cmd.Parameters.AddWithValue("@Address", data.Address);
                 cmd.Parameters.AddWithValue("@City", data.City);
                 cmd.Parameters.AddWithValue("@Country", data.Country);

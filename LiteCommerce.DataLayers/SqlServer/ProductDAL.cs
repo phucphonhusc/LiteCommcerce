@@ -207,6 +207,46 @@ namespace LiteCommerce.DataLayers.SqlServer
             return data;
         }
 
+        public List<Product> ListAll()
+        {
+            List<Product> data = new List<Product>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = @"select * from Products
+                        ";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Connection = connection;
+
+
+                    using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    {
+                        while (dbReader.Read())
+                        {
+                            data.Add(new Product
+                            {
+                                ProductID = Convert.ToInt32(dbReader["ProductID"]),
+                                ProductName = Convert.ToString(dbReader["ProductName"]),
+                                SupplierID = Convert.ToInt32(dbReader["SupplierID"]),
+                                CategoryID = Convert.ToInt32(dbReader["CategoryID"]),
+                                QuantityPerUnit = Convert.ToString(dbReader["QuantityPerUnit"]),
+                                UnitPrice = Convert.ToInt32(dbReader["UnitPrice"]),
+                                Descriptions = Convert.ToString(dbReader["Descriptions"]),
+                                PhotoPath = Convert.ToString(dbReader["PhotoPath"]),
+
+                            });
+                        }
+                    }
+
+                }
+                connection.Close();
+
+            }
+            return data;
+        }
+
         public bool Update(Product data)
         {
             int rowsAffected = 0;

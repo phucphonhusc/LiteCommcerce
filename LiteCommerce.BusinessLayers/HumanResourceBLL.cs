@@ -39,5 +39,9 @@ namespace LiteCommerce.BusinessLayers
         {
             return EmployeeDB.Count(searchValue, country);
         }
+        public static List<Employee> Employee_ListAll()
+        {
+            return EmployeeDB.ListAll();
+        }
     }
 }

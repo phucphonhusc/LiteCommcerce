@@ -276,5 +276,47 @@ namespace LiteCommerce.DataLayers.SqlServer
             }
             return rowCount;
         }
+
+        public List<Supplier> ListAll()
+        {
+            List<Supplier> data = new List<Supplier>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = @"select * from Suppliers ORDER BY CompanyName ASC
+                        ";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Connection = connection;
+
+
+                    using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                    {
+                        while (dbReader.Read())
+                        {
+                            data.Add(new Supplier
+                            {
+                                SupplierID = Convert.ToInt32(dbReader["SupplierID"]),
+                                CompanyName = Convert.ToString(dbReader["CompanyName"]),
+                                ContactName = Convert.ToString(dbReader["ContactName"]),
+                                ContactTitle = Convert.ToString(dbReader["ContactTitle"]),
+                                Address = Convert.ToString(dbReader["Address"]),
+                                City = Convert.ToString(dbReader["City"]),
+                                Country = Convert.ToString(dbReader["Country"]),
+                                Phone = Convert.ToString(dbReader["Phone"]),
+                                Fax = Convert.ToString(dbReader["Fax"]),
+                                HomePage = Convert.ToString(dbReader["Homepage"]),
+
+                            });
+                        }
+                    }
+
+                }
+                connection.Close();
+
+            }
+            return data;
+        }
     }
 }

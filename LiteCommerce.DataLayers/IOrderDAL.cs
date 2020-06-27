@@ -11,7 +11,7 @@ namespace LiteCommerce.DataLayers
     public interface IOrderDAL
     {
         Order Get(int orderID);
-        List<Order> List(int page, int pageSize, string searchValue);
-        int Count(string searchValue);
+        List<Order> List(int page, int pageSize, string searchValue, string customer);
+        int Count(string searchValue, string customer);
     }
 }

@@ -15,5 +15,6 @@ namespace LiteCommerce.DataLayers
         Employee Get(int employeeID);
         List<Employee> List(int page, int pageSize, string searchValue, string country);
         int Count(string searchValue, string country);
+        List<Employee> ListAll();
     }
 }

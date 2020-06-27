@@ -45,9 +45,11 @@ namespace LiteCommerce.DataLayers.SqlServer
                         {
                             UserID = Convert.ToString(dbReader["Email"]),
                             FullName = Convert.ToString(dbReader["FirstName"])+" "+Convert.ToString(dbReader["LastName"]),
-
+                            
                             Photo = Convert.ToString(dbReader["PhotoPath"]),
-                           
+                            GroupName = Convert.ToString(dbReader["GroupName"])
+
+
 
                         };
                     }

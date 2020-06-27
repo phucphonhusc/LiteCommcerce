@@ -9,5 +9,7 @@ namespace LiteCommerce.Admin.Models
     public class OrderPaginationResult :PaginationResult
     {
         public List<Order> Data;
+        public string customer;
+        
     }
 }

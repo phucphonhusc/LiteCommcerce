@@ -20,7 +20,7 @@ namespace LiteCommerce.DataLayers.SqlServer
         {
             this.connectionString = connectionString;
         }
-        public int Count(string searchValue)
+        public int Count(string searchValue, string customer)
         {
             int rowCount = 0;
             if (!string.IsNullOrEmpty(searchValue))
@@ -34,11 +34,14 @@ namespace LiteCommerce.DataLayers.SqlServer
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.CommandText = @"select count (*) from Orders 
-                    where (@searchValue = N'') or (OrderID like @searchValue)
+                    where ((@searchValue = N'') or (OrderID like @searchValue))  and ((@customer = N'') or (CustomerID = @customer))
+                                                        
                     ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.Connection = connection;
                     cmd.Parameters.AddWithValue("@searchValue", searchValue);
+                    cmd.Parameters.AddWithValue("@customer", customer);
+                  
                     rowCount = Convert.ToInt32(cmd.ExecuteScalar());
                 }
                 connection.Close();
@@ -90,7 +93,7 @@ namespace LiteCommerce.DataLayers.SqlServer
             return data;
         }
 
-        public List<Order> List(int page, int pageSize, string searchValue)
+        public List<Order> List(int page, int pageSize, string searchValue, string customer)
         {
             List<Order> data = new List<Order>();
             if (!string.IsNullOrEmpty(searchValue))
@@ -109,7 +112,8 @@ namespace LiteCommerce.DataLayers.SqlServer
 	                        select * ,
 		                        ROW_NUMBER() over ( order by OrderID) AS RowNumber
 	                        from Orders
-	                        where (@searchValue = N'') or (OrderID like @searchValue)
+	                        where ((@searchValue = N'') or (OrderID like @searchValue)) and ((@customer = N'') or (CustomerID = @customer))
+                                                        
 
                         ) as t
                         where t.RowNumber between (@page -1) *@pageSize +1 and @page * @pageSize
@@ -119,6 +123,8 @@ namespace LiteCommerce.DataLayers.SqlServer
                     cmd.Parameters.AddWithValue("@page", page);
                     cmd.Parameters.AddWithValue("@pageSize", pageSize);
                     cmd.Parameters.AddWithValue("@searchValue", searchValue);
+                    cmd.Parameters.AddWithValue("@customer", customer);
+                    
 
                     using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {

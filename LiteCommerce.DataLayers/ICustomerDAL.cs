@@ -15,6 +15,7 @@ namespace LiteCommerce.DataLayers
         Customer Get(string customerID);
         List<Customer> List(int page, int pageSize, string searchValue);
         int Count(string searchValue);
+        List<Customer> ListAll();
     }
 }
 
